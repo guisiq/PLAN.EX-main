@@ -151,7 +151,7 @@ def main():
     #matyJson = json.dumps(maty)
     # Cálculo da Matriz X^t * Y
     matx_t_y = np.matmul(matxtranp, maty)
-
+    #print(json.dumps(maty.tolist()))
     # Cálculo dos Betas
     matbetas = np.matmul(matx_t_xinv, matx_t_y)
     #print('\nMatriz BETA:\n', matbetas)
