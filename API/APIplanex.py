@@ -1,5 +1,6 @@
 import json
-from flask import Flask, jsonify
+import mimetypes
+from flask import Flask, Response, jsonify
 from itertools import combinations
 from itertools import combinations
 import numpy as np
@@ -98,7 +99,7 @@ def matrix(fatores,replicadas):
     print('=-=' * 30, '\n')
     # Informando o tamanho da Matriz X
     print('A matriz X possui', linx, 'linhas e ', colx, 'colunas.\n')
-    return jsonify(matx.tolist())
+    return jsonify(matx.tolist()),200,{'Content-Type' : 'application/json'}
 
 @app.route('/matriTesteT/<fatores>/<replicadas>/<maty>',methods=['GET'])
 def testT(fatores,replicadas, maty):
@@ -292,7 +293,7 @@ def testT(fatores,replicadas, maty):
 
 
     #return jsonify(tab_signbeta)
-    return tab_signbeta.to_json(orient="table")
+    return tab_signbeta.to_json(orient="table"),200,{'Content-Type' : 'application/json'}
 
 @app.route('/tab_anova/<fatores>/<replicadas>/<maty>/<matbetaAceito>',methods=['GET'])
 def tabAnova(fatores,replicadas, maty,matbetaAceito):
@@ -563,7 +564,7 @@ def tabAnova(fatores,replicadas, maty,matbetaAceito):
 
     print('\nTABELA DE ANOVA\n', '=-=' * 30)
     display('\n', tabAnova)
-    return tabAnova.to_json(orient="table")
+    return tabAnova.to_json(orient="table"),200,{'Content-Type' : 'application/json'}
 
 
 
