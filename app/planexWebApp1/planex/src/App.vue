@@ -30,7 +30,7 @@
         <v-stepper-content step="1">
           <v-card
             class="mb-12"
-            height="200px"
+ 
           >
             <label for="nVariaveisInput">Números de variaveis :</label>
             
@@ -49,9 +49,15 @@
               <v-data-table
                 :headers="headersVariaveis"
                 :items="dsVariaveis"
+                disable-pagination
+                :hide-default-footer="true"
               >
+                <!-- :footer-props="{
+                  disablePagination:false
+
+                }" -->
                 
-                <template  v-slot:item.name="props">
+                <template v-slot:[`item.name`]="props">
                   <v-edit-dialog
                     :return-value.sync="props.item.nome"
                     large
@@ -77,7 +83,33 @@
                     </template>
                   </v-edit-dialog>
                 </template>
-                <template v-slot:item.vBaixo ="props">
+                <template v-slot:[`item.unidade`]="props">
+                  <v-edit-dialog
+                    :return-value.sync="props.item.unidade"
+                    large
+                    persistent
+                    @save="save"
+                    @cancel="cancel"
+                    @open="open"
+                    @close="close"
+                  >
+                    <div>{{ props.item.unidade }}</div>
+                    <template v-slot:input>
+                      <div class="mt-4 text-h6">
+                        atualizar unidade
+                      </div>
+                      <v-text-field
+                        v-model="props.item.unidade"
+                        :rules="[max25chars]"
+                        label="Edit"
+                        single-line
+                        counter
+                        autofocus
+                      ></v-text-field>
+                    </template>
+                  </v-edit-dialog>
+                </template>
+                <template v-slot:[`item.vBaixo`] ="props">
                   <v-edit-dialog
                     :return-value.sync="props.item.vBaixo"
                     large
@@ -103,33 +135,7 @@
                     </template>
                   </v-edit-dialog>
                 </template>
-                <template v-slot:item.vBaixo ="props">
-                  <v-edit-dialog
-                    :return-value.sync="props.item.vBaixo"
-                    large
-                    persistent
-                    @save="save"
-                    @cancel="cancel"
-                    @open="open"
-                    @close="close"
-                  >
-                    <div>{{ props.item.vBaixo }}</div>
-                    <template v-slot:input>
-                      <div class="mt-4 text-h6">
-                        atualizar vBaixo
-                      </div>
-                      <v-text-field
-                        v-model="props.item.vBaixo"
-                        :rules="[max25chars]"
-                        label="Edit"
-                        single-line
-                        counter
-                        autofocus
-                      ></v-text-field>
-                    </template>
-                  </v-edit-dialog>
-                </template>
-                <template v-slot:item.vAlto ="props">
+                <template v-slot:[`item.vAlto`] ="props">
                   <v-edit-dialog
                     :return-value.sync="props.item.vAlto"
                     large
@@ -291,18 +297,7 @@ export default {
       },
     ],
     dsVariaveis:[
-      {
-        nome: "x1",
-        unidade:" ",
-        vBaixo:-1.0,
-        vAlto:1.0
-      },
-      {
-        nome: "x2",
-        unidade:" ",
-        vBaixo:-1.0,
-        vAlto:1.0
-      },
+
     ],
     max25chars: v => v.length <= 25 || 'nome muito longo !',
    
@@ -346,7 +341,44 @@ export default {
     close () {
       console.log('Dialog closed')
     },
+  },
+
+  watch:{
+    Nvariaveis(){
+      console.log("alteracao");
+      console.log("this.dsVariaveis:",this.dsVariaveis);
+      if(this.dsVariaveis.length == this.Nvariaveis){
+        console.log("this.dsVariaveis.length = N",this.dsVariaveis.length );
+        console.log("this.dsVariaveis = N",this.dsVariaveis);
+        return
+      }else if(this.dsVariaveis.length > this.Nvariaveis){
+        console.log("this.dsVariaveis.length > N",this.dsVariaveis.length );
+        console.log("this.dsVariaveis > N",this.dsVariaveis);
+         while (this.dsVariaveis.length != this.Nvariaveis) {
+
+           this.dsVariaveis.splice(this.dsVariaveis.length -1,1);
+         }
+
+      }else if(this.dsVariaveis.length < this.Nvariaveis){
+        console.log("this.dsVariaveis.length < N",this.dsVariaveis.length );
+
+          while (this.dsVariaveis.length != this.Nvariaveis) {
+            //let newVariavel =clone(this.dsVariaveis[1]);
+            // console.log("this.dsVariaveis < N",this.dsVariaveis);
+            // newVariavel.nome = "x" + this.dsVariaveis.length;
+            this.dsVariaveis.push({
+                                    nome: "x"+this.dsVariaveis.length ,
+                                    unidade:" ",
+                                    vBaixo:-1.0,
+                                    vAlto:1.0
+                                  }) ;
+            
+          }
+      }
+        
+    }
   }
+
   
 };
 </script>
