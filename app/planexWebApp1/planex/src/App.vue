@@ -107,8 +107,29 @@
 
         <v-stepper-content step="2">
           <v-card class="mb-12">
-             <v-data-table :headers="headersMatrizX" :items="dsMatrix">
+             <v-data-table :headers="headersMatrizX" :items="dsMatrix" disable-pagination
+              :hide-default-footer="true">
+              <template v-slot:[`item.resposta`]="props">
+                  <v-edit-dialog :return-value.sync="props.item.resposta" large persistent @save="save" @cancel="cancel"
+                    @open="open" @close="close">
+                    <div>{{ props.item.resposta }}</div>
+                    <template v-slot:input>
+                      <div class="mt-4 text-h6">atualizar resposta</div>
+                      <v-text-field v-model="props.item.resposta"  label="Edit" single-line counter
+                        autofocus></v-text-field>
+                    </template>
+                  </v-edit-dialog>
+                </template>
              </v-data-table>
+             <v-snackbar v-model="snack" :timeout="3000" :color="snackColor">
+              {{ snackText }}
+
+              <template v-slot:action="{ attrs }">
+                <v-btn v-bind="attrs" text @click="snack = false">
+                  Close
+                </v-btn>
+              </template>
+            </v-snackbar>
           </v-card>
           <v-btn text> Cancel </v-btn>
 
@@ -190,11 +211,13 @@ export default {
             .get("http://127.0.0.1:5000/matrix/" + this.Nvariaveis + "/" + this.NReplicadas)
             .then((resp) => {
               let variaveis = resp.data.slice(1, this.Nvariaveis + 1);
+              
               let variaveisEstruct = []
 
               for (let i = 0; i < variaveis[0].length; i++) {
                 variaveisEstruct.push(new Object);
               }
+               this.headersMatrizX = [];
               for (let e = 0; e < variaveis.length; e++) {
                 this.headersMatrizX.push({
                       text: this.dsVariaveis[e].nome,
@@ -204,13 +227,20 @@ export default {
                     }
                   )
               }
+              this.headersMatrizX.push({
+                      text: "resposta",
+                      align: "start",
+                      sortable: false,
+                      value: "resposta",
+                    }
+                  )
               console.log(this.headersMatrizX);
 
               for (let i = 0; i < variaveisEstruct.length; i++) {
                 for (let e = 0; e < variaveis.length; e++) {
                   variaveisEstruct[i][this.dsVariaveis[e].nome] = variaveis[e][i];
-                  
                 }
+                variaveisEstruct[i]["resposta"] = 0;
               }
               this.dsMatrix = variaveisEstruct;
             });
