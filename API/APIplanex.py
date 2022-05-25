@@ -9,9 +9,10 @@ from IPython.display import display
 from statistics import variance
 from scipy.stats import t, f, norm
 import matplotlib.pyplot as plt
+from flask_cors import CORS
 
 app = Flask(__name__)
-
+CORS(app, resources={"*": {"origins": "*"}})
 @app.route('/')
 def hello():
     return 'Hello, World!'
@@ -99,7 +100,11 @@ def matrix(fatores,replicadas):
     print('=-=' * 30, '\n')
     # Informando o tamanho da Matriz X
     print('A matriz X possui', linx, 'linhas e ', colx, 'colunas.\n')
-    return jsonify(matx.tolist()),200,{'Content-Type' : 'application/json'}
+    for linha in range(0, linx):
+        for coluna in range(0, colx):
+            print(f'[{matx[linha, coluna]:^3}]', end='')
+        print()
+    return jsonify(np.transpose(matx).tolist()),200,{'Content-Type' : 'application/json'}
 
 @app.route('/matriTesteT/<fatores>/<replicadas>/<maty>',methods=['GET'])
 def testT(fatores,replicadas, maty):
