@@ -24,135 +24,65 @@
             <v-row>
               <v-col>
                 <label for="nVariaveisInput">Números de variaveis :</label>
-                <v-text-field
-                  id="nVariaveisInput"
-                  type="number"
-                  step="any"
-                  min="0"
-                  ref="input"
-                  :rules="[numberRule]"
-                  v-model.number="Nvariaveis"
-                ></v-text-field>
+                <v-text-field id="nVariaveisInput" type="number" step="any" min="0" ref="input" :rules="[numberRule]"
+                  v-model.number="Nvariaveis"></v-text-field>
               </v-col>
               <v-col>
                 <label for="nVariaveisInput">Números de Replicadas :</label>
-                <v-text-field
-                  id="nReplicadasInput"
-                  type="number"
-                  step="any"
-                  min="0"
-                  ref="input"
-                  :rules="[numberRule]"
-                  v-model.number="NReplicadas"
-                ></v-text-field>
+                <v-text-field id="nReplicadasInput" type="number" step="any" min="0" ref="input" :rules="[numberRule]"
+                  v-model.number="NReplicadas"></v-text-field>
               </v-col>
             </v-row>
 
             <!-- tabela -->
-            <v-data-table
-              :headers="headersVariaveis"
-              :items="dsVariaveis"
-              disable-pagination
-              :hide-default-footer="true"
-            >
+            <v-data-table  :headers="headersVariaveis" :items="dsVariaveis" disable-pagination
+              :hide-default-footer="true">
               <!-- :footer-props="{
                   disablePagination:false
 
                 }" -->
 
               <template v-slot:[`item.name`]="props">
-                <v-edit-dialog
-                  :return-value.sync="props.item.nome"
-                  large
-                  persistent
-                  @save="save"
-                  @cancel="cancel"
-                  @open="open"
-                  @close="close"
-                >
+                <v-edit-dialog :return-value.sync="props.item.nome" large persistent @save="save" @cancel="cancel"
+                  @open="open" @close="close">
                   <div>{{ props.item.nome }}</div>
                   <template v-slot:input>
                     <div class="mt-4 text-h6">atualizar nome</div>
-                    <v-text-field
-                      v-model="props.item.nome"
-                      :rules="[max25chars]"
-                      label="Edit"
-                      single-line
-                      counter
-                      autofocus
-                    ></v-text-field>
+                    <v-text-field v-model="props.item.nome" :rules="[max25chars]" label="Edit" single-line counter
+                      autofocus></v-text-field>
                   </template>
                 </v-edit-dialog>
               </template>
               <template v-slot:[`item.unidade`]="props">
-                <v-edit-dialog
-                  :return-value.sync="props.item.unidade"
-                  large
-                  persistent
-                  @save="save"
-                  @cancel="cancel"
-                  @open="open"
-                  @close="close"
-                >
+                <v-edit-dialog :return-value.sync="props.item.unidade" large persistent @save="save" @cancel="cancel"
+                  @open="open" @close="close">
                   <div>{{ props.item.unidade }}</div>
                   <template v-slot:input>
                     <div class="mt-4 text-h6">atualizar unidade</div>
-                    <v-text-field
-                      v-model="props.item.unidade"
-                      :rules="[max25chars]"
-                      label="Edit"
-                      single-line
-                      counter
-                      autofocus
-                    ></v-text-field>
+                    <v-text-field v-model="props.item.unidade" :rules="[max25chars]" label="Edit" single-line counter
+                      autofocus></v-text-field>
                   </template>
                 </v-edit-dialog>
               </template>
               <template v-slot:[`item.vBaixo`]="props">
-                <v-edit-dialog
-                  :return-value.sync="props.item.vBaixo"
-                  large
-                  persistent
-                  @save="save"
-                  @cancel="cancel"
-                  @open="open"
-                  @close="close"
-                >
+                <v-edit-dialog :return-value.sync="props.item.vBaixo" large persistent @save="save" @cancel="cancel"
+                  @open="open" @close="close">
                   <div>{{ props.item.vBaixo }}</div>
                   <template v-slot:input>
                     <div class="mt-4 text-h6">atualizar vBaixo</div>
-                    <v-text-field
-                      v-model="props.item.vBaixo"
-                      :rules="[max25chars]"
-                      label="Edit"
-                      single-line
-                      counter
-                      autofocus
-                    ></v-text-field>
+                    <v-text-field v-model="props.item.vBaixo" :rules="[max25chars]" label="Edit" single-line counter
+                      autofocus></v-text-field>
                   </template>
                 </v-edit-dialog>
               </template>
               <template v-slot:[`item.vAlto`]="props">
-                <v-edit-dialog
-                  :return-value.sync="props.item.vAlto"
-                  large
-                  persistent
-                  @save="save"
-                  @cancel="cancel"
-                  @open="open"
-                  @close="close"
-                >
+                <v-edit-dialog :return-value.sync="props.item.vAlto" large persistent @save="save" @cancel="cancel"
+                  @open="open" @close="close">
                   <div>{{ props.item.vAlto }}</div>
                   <template v-slot:input>
                     <div class="mt-4 text-h6">atualizar vAlto</div>
-                    <v-text-field
-                      v-model="props.item.vAlto"
-                      :rules="[max25chars]"
-                      label="Edit"
-                      single-line
-                      counter
-                      autofocus
-                    ></v-text-field>
+                    <v-text-field v-model="props.item.vAlto" :rules="[max25chars]" label="Edit" single-line counter
+                      autofocus></v-text-field>
                   </template>
                 </v-edit-dialog>
               </template>
@@ -176,8 +106,10 @@
         </v-stepper-content>
 
         <v-stepper-content step="2">
-          <v-card class="mb-12" color="grey lighten-1" height="200px"></v-card>
-
+          <v-card class="mb-12">
+             <v-data-table :headers="headersMatrizX" :items="dsMatrix">
+             </v-data-table>
+          </v-card>
           <v-btn text> Cancel </v-btn>
 
           <v-btn @click="voltar"> Voltar </v-btn>
@@ -241,17 +173,9 @@ export default {
     ],
     dsVariaveis: [],
     dsMatrix: [
-      [1, -1, -1, -1, 1, 1, 1, -1],
-      [1, 1, -1, -1, -1, -1, 1, 1],
-      [1, -1, 1, -1, -1, 1, -1, 1],
-      [1, 1, 1, -1, 1, -1, -1, -1],
-      [1, -1, -1, 1, 1, -1, -1, 1],
-      [1, 1, -1, 1, -1, 1, -1, -1],
-      [1, -1, 1, 1, -1, -1, 1, -1],
-      [1, 1, 1, 1, 1, 1, 1, 1],
-      [1, 0, 0, 0, 0, 0, 0, 0],
-      [1, 0, 0, 0, 0, 0, 0, 0],
+      ,
     ],
+    headersMatrizX: [],
     max25chars: (v) => v.length <= 25 || "nome muito longo !",
   }),
   methods: {
@@ -263,8 +187,33 @@ export default {
       switch (this.tela) {
         case 1:
           axios
-            .get("http://127.0.0.1:5000/matrix/" + this.Nvariaveis + "/2")
-            .then((resp) => {});
+            .get("http://127.0.0.1:5000/matrix/" + this.Nvariaveis + "/" + this.NReplicadas)
+            .then((resp) => {
+              let variaveis = resp.data.slice(1, this.Nvariaveis + 1);
+              let variaveisEstruct = []
+
+              for (let i = 0; i < variaveis[0].length; i++) {
+                variaveisEstruct.push(new Object);
+              }
+              for (let e = 0; e < variaveis.length; e++) {
+                this.headersMatrizX.push({
+                      text: this.dsVariaveis[e].nome,
+                      align: "start",
+                      sortable: false,
+                      value: this.dsVariaveis[e].nome,
+                    }
+                  )
+              }
+              console.log(this.headersMatrizX);
+
+              for (let i = 0; i < variaveisEstruct.length; i++) {
+                for (let e = 0; e < variaveis.length; e++) {
+                  variaveisEstruct[i][this.dsVariaveis[e].nome] = variaveis[e][i];
+                  
+                }
+              }
+              this.dsMatrix = variaveisEstruct;
+            });
           break;
 
         default:
@@ -274,7 +223,7 @@ export default {
       if (this.tela <= 3) {
         this.tela++;
       }
-      axios.get("https://api.coindesk.com/v1/bpi/currentprice.json");
+
     },
     voltar() {
       if (this.tela > 1) {
@@ -303,25 +252,16 @@ export default {
 
   watch: {
     Nvariaveis() {
-      console.log("alteracao");
-      console.log("this.dsVariaveis:", this.dsVariaveis);
+     
       if (this.dsVariaveis.length == this.Nvariaveis) {
-        console.log("this.dsVariaveis.length = N", this.dsVariaveis.length);
-        console.log("this.dsVariaveis = N", this.dsVariaveis);
         return;
       } else if (this.dsVariaveis.length > this.Nvariaveis) {
-        console.log("this.dsVariaveis.length > N", this.dsVariaveis.length);
-        console.log("this.dsVariaveis > N", this.dsVariaveis);
         while (this.dsVariaveis.length != this.Nvariaveis) {
           this.dsVariaveis.splice(this.dsVariaveis.length - 1, 1);
         }
       } else if (this.dsVariaveis.length < this.Nvariaveis) {
-        console.log("this.dsVariaveis.length < N", this.dsVariaveis.length);
-
+     
         while (this.dsVariaveis.length != this.Nvariaveis) {
-          //let newVariavel =clone(this.dsVariaveis[1]);
-          // console.log("this.dsVariaveis < N",this.dsVariaveis);
-          // newVariavel.nome = "x" + this.dsVariaveis.length;
           this.dsVariaveis.push({
             nome: "x" + this.dsVariaveis.length,
             unidade: " ",
