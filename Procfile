@@ -1,2 +1,2 @@
-web.1: python API/APIplanex.py
-web.2: 
+web: python API/APIplanex.py
+ 
