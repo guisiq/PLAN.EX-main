@@ -1,3 +1,4 @@
+import os
 import json
 import mimetypes
 from flask import Flask, Response, jsonify
@@ -572,5 +573,6 @@ def tabAnova(fatores,replicadas, maty,matbetaAceito):
     return tabAnova.to_json(orient="table"),200,{'Content-Type' : 'application/json'}
 
 
-
-app.run()
+if __name__ == "__main__":
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host='0.0.0.0', port=port)
