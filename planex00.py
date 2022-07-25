@@ -338,6 +338,7 @@ def main():
     graf_normal[1, 0].vlines(tcrit, -0.5, (tcalc.size + 0.5), linestyles='dotted', lw=3, colors='r')
 
     plt.show()
+    plt.figure()
 
     fim = input('\nAperte ENTER para finalizar o programa...')
 

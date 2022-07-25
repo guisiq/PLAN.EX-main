@@ -321,12 +321,13 @@ def main():
     graf_normal[0, 0].set_xlabel("Efeitos")
     graf_normal[0, 0].set_ylabel("Variável Z")
     graf_normal[0, 0].set_adjustable("box", share=True)
+    plt.show()
 
     graf_normal[0, 1].set_title('Gráfico de Resíduos em Função dos Valores Estimados')
     graf_normal[0, 1].plot(matY_, maty - matY_, "ro")
     graf_normal[0, 1].set_xlabel('Valores Estimados')
     graf_normal[0, 1].set_ylabel('Resíduos')
-
+    plt.show()
     variaveis = np.array(['Média', 'X1', 'X2', 'X1X2'])
     '''
     for i in range(k):
@@ -338,14 +339,6 @@ def main():
                 kaux.append(str(j + 1))
             variaveis.append(combinations(kaux))
     '''
-    graf_normal[1, 0].set_title("Gráfico de Pareto")
-    graf_normal[1, 0].barh(variaveis[::-1], (tcalc[::-1]))
-    graf_normal[1, 0].vlines(tcrit, -0.5, (tcalc.size + 0.5), linestyles='dotted', lw=3, colors='r')
 
-    plt.show()
-
-    fim = input('\nAperte ENTER para finalizar o programa...')
-
-    print("")
 
 main()
